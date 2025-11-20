@@ -7,13 +7,31 @@ const Sidebar = ({ selected, setSelected }) => {
     { id: "activity", label: "Activity Feed" },
     { id: "gallery", label: "Gallery" },
     { id: "timeline", label: "Project Timeline" },
-    { id: "feedback", label: "Feedback" }   // <-- Added here
+    { id: "feedback", label: "Feedback" }
   ];
 
   return (
-    <div className="h-full overflow-y-auto p-5">
-      <h1 className="text-xl font-bold mb-6 hidden md:block">COOKSCAPE WORK MANAGEMENT <br /><span className=" pt-3">Client Panel</span></h1>
+    <div className="h-full overflow-y-auto p-5 min-w-[180px]">
 
+      {/* Mobile-visible heading */}
+      <div className="md:hidden mb-6">
+        <h1 className="text-base font-bold leading-tight">
+          COOKSCAPE WORK MANAGEMENT
+        </h1>
+        <span className="text-sm text-gray-600">Client Panel</span>
+      </div>
+
+      {/* Desktop heading */}
+      <div className="hidden md:block mb-6">
+        <h1 className="text-lg md:text-xl font-bold break-words">
+          COOKSCAPE WORK MANAGEMENT
+        </h1>
+        <span className="text-sm md:text-base block pt-2">
+          Client Panel
+        </span>
+      </div>
+
+      {/* Menu */}
       <div className="space-y-2">
         {menu.map((item) => (
           <button
