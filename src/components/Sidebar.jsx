@@ -24,10 +24,10 @@ const Sidebar = ({ selected, setSelected }) => {
       {/* Desktop heading */}
       <div className="hidden md:block mb-6">
         <h1 className="text-lg md:text-xl font-bold break-words">
-          COOKSCAPE WORK MANAGEMENT
+          COOKSCAPE WORK MANAGEMENT <br></br>Client Panel
         </h1>
         <span className="text-sm md:text-base block pt-2">
-          Client Panel
+          
         </span>
       </div>
 
