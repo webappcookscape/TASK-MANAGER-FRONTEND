@@ -331,10 +331,10 @@ const ProjectProgress = ({ tasks }) => {
   /* Smooth lux gradient bar */
 .smooth-bar {
   background: linear-gradient(90deg,
-    #00d412ff,
-    #339b0aff,
-    #c0f500ff,
-    #15ff00ff,
+    #2600ffff,
+    #0acdc3ff,
+    #10c0c0ff,
+    #ff00f2ff,
     #4f46e5
   );
   background-size: 300% 300%;
