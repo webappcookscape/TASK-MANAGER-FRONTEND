@@ -29,9 +29,9 @@ const ProjectProgress = ({ tasks }) => {
       <div className="mb-6">
         <p className="text-sm mb-1">Overall Progress</p>
 
-        <div className="w-full bg-gray-200 h-10 rounded">
+        <div className="w-full bg-gray-200 h-20 rounded">
           <div
-            className="bg-indigo-600 h-10 rounded"
+            className="bg-indigo-600 h-20 rounded"
             style={{ width: `${percentage}%` }}
           ></div>
         </div>
