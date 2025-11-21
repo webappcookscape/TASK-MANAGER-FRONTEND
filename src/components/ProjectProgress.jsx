@@ -14,6 +14,28 @@ const ProjectProgress = ({ tasks }) => {
   const pending = total - completed;
 
   const targetPercentage = total === 0 ? 0 : Math.round((completed / total) * 100);
+// 45 Days Progress Dummy Data
+const TOTAL_DAYS = 45;
+const daysPassed = 20; // change this later
+const daysLeft = TOTAL_DAYS - daysPassed;
+
+const daysPercentage = Math.round((daysPassed / TOTAL_DAYS) * 100);
+const overdueDays = daysPassed > TOTAL_DAYS 
+  ? daysPassed - TOTAL_DAYS 
+  : 0;
+
+// Animation state for day progress bar
+const [dayProgress, setDayProgress] = useState(0);
+
+useEffect(() => {
+  let start = 0;
+  const interval = setInterval(() => {
+    start += 1;
+    if (start <= daysPercentage) setDayProgress(start);
+    else clearInterval(interval);
+  }, 15);
+  return () => clearInterval(interval);
+}, [daysPercentage]);
 
   // Animated counter
   const [percentage, setPercentage] = useState(0);
@@ -32,11 +54,24 @@ const ProjectProgress = ({ tasks }) => {
     { name: "Completed", value: completed },
     { name: "Pending", value: pending },
   ];
+  const client = {
+  name: "Gopinath Guest House-Alandur",
+};
 
   const COLORS = ["#22c55e", "#f97316"]; // green, orange
 
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 transition-all duration-300 hover:shadow-xl">
+<div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-200 transition-all duration-300 hover:shadow-xl">
+      
+    {/* Professional greeting */}
+    <div className="mb-8">
+      <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+        Welcome back, <span className="text-indigo-600">{client.name}</span>
+      </h1>
+      <p className="text-gray-600 mt-1 text-sm">
+        Here is the latest update on your project.
+      </p>
+    </div>
       <h2 className="text-2xl font-bold mb-6 text-gray-900 tracking-tight">
         Project Overview
       </h2>
@@ -72,56 +107,177 @@ const ProjectProgress = ({ tasks }) => {
     </div>
   </div>
 </div>
+{/* 45 Days Progress (Smaller Bar) */}
+<div className="mb-10">
+  <p className="text-lg mb-3 font-semibold text-gray-700">45-Day Timeline</p>
+
+  <div className="relative w-full bg-gray-300 h-8 rounded-xl overflow-visible">
+
+    {/* Arrow-style animated bar */}
+    <div
+      className="h-full smooth-bar arrow-bar relative"
+      style={{ width: `${dayProgress}%` }}
+    >
+      <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-base percentage-text">
+        {dayProgress}%
+      </span>
+    </div>
+
+    {/* Glow effect */}
+    <div
+      className="soft-glow"
+      style={{ left: `${dayProgress}%` }}
+    ></div>
+  </div>
+
+  {/* Remaining days text */}
+  <p className="text-sm text-gray-600 mt-2">
+    {daysLeft} days remaining out of 45 days
+  </p>
+</div>
 
 
 
       {/* Stats + Pie Chart Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-5">
-          <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition-all">
-            <h3 className="font-semibold text-gray-700">Tasks Completed</h3>
-            <p className="text-4xl font-extrabold text-green-600">{completed}</p>
-          </div>
+  {/* Completed Tasks */}
+  <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition-all">
+    <h3 className="font-semibold text-gray-700">Tasks Completed</h3>
+    <p className="text-4xl font-extrabold text-green-600">{completed}</p>
+  </div>
 
-          <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition-all">
-            <h3 className="font-semibold text-gray-700">Pending Tasks</h3>
-            <p className="text-4xl font-extrabold text-orange-500">{pending}</p>
-          </div>
-        </div>
+  {/* Pending Tasks */}
+  <div className="bg-gray-50 p-5 rounded-xl border shadow-sm hover:shadow-md transition-all">
+    <h3 className="font-semibold text-gray-700">Pending Tasks</h3>
+    <p className="text-4xl font-extrabold text-orange-500">{pending}</p>
+  </div>
 
-        <div className="w-full opacity-0 animate-fade-in" style={{ height: 220 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                innerRadius={55}
-                outerRadius={90}
-                dataKey="value"
-                paddingAngle={5}
-                animationDuration={1200}
-                label={({ name }) => name}
-              >
-                {data.map((entry, i) => (
-                  <Cell key={i} fill={COLORS[i]} />
-                ))}
-              </Pie>
+  {/* Overdue Days */}
+  <div className="bg-red-50 p-5 rounded-xl border border-red-200 shadow-sm hover:shadow-md transition-all">
+    <h3 className="font-semibold text-red-700">Overdue Days</h3>
+    <p className="text-4xl font-extrabold text-red-600">
+      {overdueDays} <span className="text-lg font-medium">days</span>
+    </p>
+  </div>
 
-              <Tooltip
-                contentStyle={{
-                  borderRadius: "10px",
-                  border: "none",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                }}
-              />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
+  {/* Remaining Days */}
+  <div className="bg-blue-50 p-5 rounded-xl border border-blue-200 shadow-sm hover:shadow-md transition-all">
+    <h3 className="font-semibold text-blue-700">Remaining Days</h3>
+    <p className="text-4xl font-extrabold text-blue-600">
+      {daysLeft} <span className="text-lg font-medium">days</span>
+    </p>
+  </div>
+</div>
+
+
+       <div className="w-full flex flex-col items-center bg-gray-50 p-6 rounded-xl border shadow-sm animate-fade-in">
+
+  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+    Project Overview (Deliverables Status)
+  </h3>
+
+ <div className="chart-wrapper">
+  <ResponsiveContainer width="100%" height="100%">
+    <PieChart className="pie-hover">
+      <Pie
+        data={data}
+        dataKey="value"
+        nameKey="name"
+        cx="50%"
+        cy="50%"
+        innerRadius={80}
+        outerRadius={105}
+        paddingAngle={2}
+        startAngle={90}
+        endAngle={-270}
+        isAnimationActive={false}
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index]} />
+        ))}
+      </Pie>
+
+      {/* Center Text */}
+      <text
+        x="50%"
+        y="45%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="text-lg font-bold fill-gray-800"
+      >
+        {targetPercentage}%
+      </text>
+
+      <text
+        x="50%"
+        y="55%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="text-xs fill-gray-500"
+      >
+        Completed
+      </text>
+
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  </ResponsiveContainer>
+</div>
+
+</div>
+
       </div>
-
+      
       {/* Animations */}
       <style>
         {`
+        /* Smooth interactive pie */
+.pie-hover {
+  transition: transform 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+/* Desktop Hover */
+.pie-hover:hover {
+  transform: scale(1.04);
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12));
+}
+
+/* Mobile touch feedback */
+.pie-hover:active {
+  transform: scale(0.97);
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+}
+
+/* Background container */
+.chart-wrapper {
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #f9fafb, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+}
+
+        .chart-wrapper {
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #f9fafb, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+/* Soft glass glow around pie */
+.recharts-wrapper {
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
         /* Fade In */
         .animate-fade-in {
           animation: fadeIn 1.2s ease-out forwards;

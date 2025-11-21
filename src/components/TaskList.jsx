@@ -21,7 +21,7 @@ const TaskList = ({ tasks }) => {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow border">
-      <h2 className="text-xl font-semibold mb-4">Client Tasks</h2>
+      <h2 className="text-xl font-semibold mb-4">Project Stages</h2>
 
       <div className="space-y-3">
         {tasks.map((task) => {

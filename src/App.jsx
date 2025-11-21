@@ -5,7 +5,9 @@ import TaskList from "./components/TaskList";
 import ActivityFeed from "./components/ActivityFeed";
 import Gallery from "./components/Gallery";
 import Timeline from "./components/Timeline";
-import Feedback from "./components/Feedback";
+import RaiseTicket from "./components/RaiseTicket";
+import TopNavbar from "./components/TopNavbar";
+
 
 import { dummyActivityFeed } from "./data/dummyActivityFeed";
 import { clientTasks as initialTasks } from "./data/clientTasks";
@@ -49,70 +51,76 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+  <div className="min-h-screen bg-gray-100">
 
-      {/* ---------- Mobile Top Navbar ---------- */}
-      <div className="md:hidden fixed top-0 left-0 right-0 bg-white shadow py-3 px-4 flex justify-between items-center z-30">
-        <h1 className="text-lg font-semibold">Client Panel</h1>
-        <button onClick={() => setMenuOpen(!menuOpen)}>
-          <div className="w-6 h-0.5 bg-black mb-1"></div>
-          <div className="w-6 h-0.5 bg-black mb-1"></div>
-          <div className="w-6 h-0.5 bg-black"></div>
-        </button>
-      </div>
+    {/* TOP NAVBAR */}
+    <TopNavbar
+      setSelected={setSelected}
+      menuOpen={menuOpen}
+      setMenuOpen={setMenuOpen}
+    />
 
-      {/* ---------- Mobile Sidebar Slide-in ---------- */}
-      <div
-        className={`fixed top-0 bottom-0 left-0 w-64 bg-white shadow-lg transform transition-transform duration-300 z-40 md:hidden
-        ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
-      >
-        <Sidebar
-          selected={selected}
-          setSelected={(val) => {
-            setSelected(val);
-            setMenuOpen(false);
-          }}
-        />
-      </div>
+    {/* Wrapper */}
+    <div className="flex pt-20">
 
-      {/* ---------- Desktop Sidebar ---------- */}
-      <div className="hidden md:block fixed top-0 left-0 bottom-0 w-64 bg-white shadow">
+      {/* ✅ Sidebar Desktop */}
+      <div className="hidden md:block w-64 border-r bg-white min-h-screen">
         <Sidebar selected={selected} setSelected={setSelected} />
       </div>
 
-      {/* ---------- Main Content ---------- */}
-      <div className="pt-16 md:pt-0 md:ml-64 p-4 md:p-6">
+      {/* ✅ Mobile Sidebar */}
+     {menuOpen && (
+  <div
+    onClick={() => setMenuOpen(false)}
+    className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+  ></div>
+)}
 
-        {/* ----- MOBILE VIEW (Page-by-page like desktop) ----- */}
-        <div className="block md:hidden">
-          {selected === "overview" && <ProjectProgress tasks={tasks} />}
-          {selected === "tasks" && (
-            <TaskList tasks={tasks} toggleStatus={toggleStatus} />
-          )}
-          {selected === "activity" && (
-            <ActivityFeed activity={activity} dummyActivity={dummyActivityFeed} />
-          )}
-          {selected === "gallery" && <Gallery />}
-          {selected === "timeline" && <Timeline tasks={tasks} compact />}
-          {selected === "feedback" && <Feedback />} {/* NEW */}
-        </div>
 
-        {/* ----- DESKTOP VIEW ----- */}
-        <div className="hidden md:block">
-          {selected === "overview" && <ProjectProgress tasks={tasks} />}
-          {selected === "tasks" && (
-            <TaskList tasks={tasks} toggleStatus={toggleStatus} />
-          )}
-          {selected === "activity" && (
-            <ActivityFeed activity={activity} dummyActivity={dummyActivityFeed} />
-          )}
-          {selected === "gallery" && <Gallery />}
-          {selected === "timeline" && <Timeline tasks={tasks} />}
-          {selected === "feedback" && <Feedback />} {/* NEW */}
-        </div>
+     {/* ✅ Mobile Sidebar */}
+<div
+  className={`fixed top-20 bottom-0 left-0 w-64 bg-white z-50 transform transition-transform duration-300 md:hidden
+  ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+
+  // Swipe detection
+  onTouchStart={(e) => {
+    window._touchStartX = e.touches[0].clientX;
+  }}
+
+  onTouchMove={(e) => {
+    const touchEndX = e.touches[0].clientX;
+    const diff = window._touchStartX - touchEndX;
+
+    // Swipe left more than 70px = close sidebar
+    if (diff > 70) {
+      setMenuOpen(false);
+    }
+  }}
+>
+  <Sidebar
+    selected={selected}
+    setSelected={(val) => {
+      setSelected(val);
+      setMenuOpen(false);
+    }}
+  />
+</div>
+
+
+      {/* ✅ Main Content */}
+      <div className="flex-1 p-4 md:p-6 overflow-y-auto min-h-screen">
+        {selected === "overview" && <ProjectProgress tasks={tasks} />}
+        {selected === "tasks" && <TaskList tasks={tasks} toggleStatus={toggleStatus} />}
+        {selected === "activity" && <ActivityFeed activity={activity} dummyActivity={dummyActivityFeed} />}
+        {selected === "gallery" && <Gallery />}
+        {selected === "timeline" && <Timeline tasks={tasks} />}
+        {selected === "feedback" && <RaiseTicket />}
       </div>
+
     </div>
-  );
+  </div>
+);
+
 };
 
 export default App;
