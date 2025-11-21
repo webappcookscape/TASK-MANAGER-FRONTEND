@@ -10,7 +10,7 @@ const images = [
 const Gallery = () => {
   return (
     <div className="bg-white p-6 rounded-xl shadow border ">
-      <h2 className="text-xl font-semibold mb-4">Gallery</h2>
+      <h2 className="text-xl font-semibold mb-4">Site Images</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {images.map((src, i) => (
