@@ -5,7 +5,7 @@ const Sidebar = ({ selected, setSelected }) => {
     { id: "overview", label: "Project Overview" },
     { id: "tasks", label: "Project Stages" },
     { id: "activity", label: "Activity Feed" },
-    { id: "gallery", label: "Gallery" },
+    { id: "gallery", label: "Site Images" },
     { id: "timeline", label: "Project Timeline" },
     { id: "feedback", label: "Raise Ticket" },
   ];
