@@ -56,19 +56,19 @@ const TopNavbar = ({ setSelected, menuOpen, setMenuOpen }) => {
 
         {/* Mobile Menu Button */}
         <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
-          <Menu size={30} />
+          <Menu size={28} />
         </button>
 
         {/* Notification Bell */}
         <Bell
-          size={30}
+          size={28}
           className="cursor-pointer text-gray-600 hover:text-indigo-600 transition"
           onClick={() => setSelected("activity")}
         />
 
         {/* User Icon */}
         <User
-          size={30}
+          size={28}
           className="cursor-pointer text-gray-600 hover:text-indigo-600 transition"
           onClick={() => setShowProfile(!showProfile)}
         />
